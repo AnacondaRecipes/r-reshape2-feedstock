@@ -14,39 +14,52 @@ source:
     - https://cran.r-project.org/src/contrib/Archive/reshape2/reshape2_{{ version }}.tar.gz
   sha256: 6d3783610379be4c5676d9236cf66276a166b5b96c18f2759e9b219758959b6b
 
-build:
-  number: 0
-  skip: true  # [win32]
 
+  # patches:
+   # List any patch files here
+   # - fix.patch
+
+build:
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+  # This is required to make R link correctly on Linux.
   rpaths:
     - lib/R/lib/
     - lib/
 
+# Suggests: testthat (>= 0.8.0), lattice
 requirements:
   build:
     - r-base
+    - {{ compiler('cxx') }}      # [not win]
+    - {{native}}toolchain        # [win]
     - r-rcpp
     - r-plyr >=1.8.1
     - r-stringr
-    - posix                # [win]
-    - {{native}}toolchain  # [win]
-    - gcc                  # [not win]
 
   run:
     - r-base
+    - {{native}}gcc-libs         # [win]
     - r-rcpp
     - r-plyr >=1.8.1
     - r-stringr
-    - libgcc               # [not win]
 
 test:
   commands:
-    - $R -e "library('reshape2')"  # [not win]
+    # You can put additional test commands to be run here.
+    - $R -e "library('reshape2')"           # [not win]
     - "\"%R%\" -e \"library('reshape2')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
 
 about:
   home: https://github.com/hadley/reshape
-  license: MIT
+  license: MIT + file LICENSE
   summary: 'Flexibly restructure and aggregate data using just two functions: melt and ''dcast''
     (or ''acast'').'
 
@@ -57,3 +70,29 @@ extra:
     - johanneskoester
     - bgruening
     - lpantano
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: reshape2
+# Title: Flexibly Reshape Data: A Reboot of the Reshape Package
+# Version: 1.4.2
+# Author: Hadley Wickham <h.wickham@gmail.com>
+# Maintainer: Hadley Wickham <h.wickham@gmail.com>
+# Description: Flexibly restructure and aggregate data using just two functions: melt and 'dcast' (or 'acast').
+# URL: https://github.com/hadley/reshape
+# BugReports: https://github.com/hadley/reshape/issues
+# LinkingTo: Rcpp
+# Imports: plyr (>= 1.8.1), stringr, Rcpp
+# Suggests: testthat (>= 0.8.0), lattice
+# License: MIT + file LICENSE
+# LazyData: true
+# RoxygenNote: 5.0.1.9000
+# NeedsCompilation: yes
+# Packaged: 2016-10-21 19:43:35 UTC; hadley
+# Repository: CRAN
+# Date/Publication: 2016-10-22 12:17:37
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml
