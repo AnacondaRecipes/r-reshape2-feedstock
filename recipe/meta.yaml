@@ -1,4 +1,4 @@
-{% set version = '1.4.2' %}
+{% set version = '1.4.3' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -12,7 +12,7 @@ source:
   url:
     - https://cran.r-project.org/src/contrib/reshape2_{{ version }}.tar.gz
     - https://cran.r-project.org/src/contrib/Archive/reshape2/reshape2_{{ version }}.tar.gz
-  sha256: 6d3783610379be4c5676d9236cf66276a166b5b96c18f2759e9b219758959b6b
+  sha256: 8aff94c935e75032344b52407593392ddd4e16a88bb206984340c816d42c710e
 
 
   # patches:
@@ -28,10 +28,11 @@ build:
     - lib/R/lib/
     - lib/
 
-# Suggests: testthat (>= 0.8.0), lattice
+# Suggests: covr, lattice, testthat (>= 0.8.0)
 requirements:
   build:
     - r-base
+    - {{ compiler('c') }}        # [not win]
     - {{ compiler('cxx') }}      # [not win]
     - {{native}}toolchain        # [win]
     - {{posix}}filesystem        # [win]
@@ -78,22 +79,24 @@ extra:
 
 # Package: reshape2
 # Title: Flexibly Reshape Data: A Reboot of the Reshape Package
-# Version: 1.4.2
+# Version: 1.4.3
 # Author: Hadley Wickham <h.wickham@gmail.com>
 # Maintainer: Hadley Wickham <h.wickham@gmail.com>
 # Description: Flexibly restructure and aggregate data using just two functions: melt and 'dcast' (or 'acast').
+# License: MIT + file LICENSE
 # URL: https://github.com/hadley/reshape
 # BugReports: https://github.com/hadley/reshape/issues
+# Depends: R (>= 3.1)
+# Imports: plyr (>= 1.8.1), Rcpp, stringr
+# Suggests: covr, lattice, testthat (>= 0.8.0)
 # LinkingTo: Rcpp
-# Imports: plyr (>= 1.8.1), stringr, Rcpp
-# Suggests: testthat (>= 0.8.0), lattice
-# License: MIT + file LICENSE
+# Encoding: UTF-8
 # LazyData: true
-# RoxygenNote: 5.0.1.9000
+# RoxygenNote: 6.0.1.9000
 # NeedsCompilation: yes
-# Packaged: 2016-10-21 19:43:35 UTC; hadley
+# Packaged: 2017-12-10 22:04:42 UTC; hadley
 # Repository: CRAN
-# Date/Publication: 2016-10-22 12:17:37
+# Date/Publication: 2017-12-11 16:47:57 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for
